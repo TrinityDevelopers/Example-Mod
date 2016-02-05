@@ -9,34 +9,24 @@
 #include "mcpe/world/level/block/Block.h"
 #include "mcpe/world/item/recipes/Recipes.h"
 
-#include "lucky_blocks/LuckyBlocks.h"
-#include "lucky_blocks/recipes/LuckyCrafting.h"
-
 void (*_Block$initBlocks)();
 void Block$initBlocks() {
 	_Block$initBlocks();
-	
-	LuckyBlocks::initBlocks();
 }
 
 void (*_Item$initCreativeItems)();
 void Item$initCreativeItems() {
 	_Item$initCreativeItems();
-
-	LuckyBlocks::initCreativeItems();
 }
 
-static std::string (*_I18n$get)(std::string const&, std::vector<std::string,std::allocator<std::string>> const&);
-static std::string I18n$get(std::string const& key, std::vector<std::string,std::allocator<std::string>> const& a) {
-	if(key == "tile.lucky_block.name") return "Lucky Block";
-	return _I18n$get(key, a);
+static std::string (*_I18n$get)(const std::string&);
+static std::string I18n$get(const std::string& key) {
+	return _I18n$get(key);
 };
 
 void (*_Recipes$init)(Recipes*);
 void Recipes$init(Recipes* self) {
 	_Recipes$init(self);
-	
-	LuckyCrafting::initRecipes(self);
 }
 
 Block* (*_Block$Block)(Block*, const std::string&, int, const std::string&, const Material&);
@@ -53,7 +43,7 @@ JNIEXPORT jint JNI_OnLoad(JavaVM* vm, void* reserved) {
 	MSHookFunction((void*) &Item::initCreativeItems, (void*) &Item$initCreativeItems, (void**) &_Item$initCreativeItems);
 	MSHookFunction((void*) &Recipes::init, (void*) &Recipes$init, (void**) &_Recipes$init);
 	
-	void* I18n_get = dlsym(RTLD_DEFAULT, "_ZN4I18n3getERKSsRKSt6vectorISsSaISsEE");
+	void* I18n_get = dlsym(RTLD_DEFAULT, "_ZN4I18n3getERKSs");
 	MSHookFunction(I18n_get, (void*) &I18n$get, (void**) &_I18n$get);
 	
 	void* BlockConstructor = dlsym(RTLD_DEFAULT, "_ZN5BlockC2ERKSsiS1_RK8Material");
