@@ -31,7 +31,7 @@ void Recipes$init(Recipes* self) {
 
 Block* (*_Block$Block)(Block*, const std::string&, int, const std::string&, const Material&);
 Block* Block$Block(Block* block, const std::string& name, int id, const std::string& tex, const Material& material) {
-	Block* retval = _Block$Block3(block, name, id, tex, material);
+	Block* retval = _Block$Block(block, name, id, tex, material);
 	if(tex == "missing_tile")
 		Block::mBlocks[id] = NULL;
 	
