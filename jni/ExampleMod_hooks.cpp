@@ -7,13 +7,23 @@
 
 #include "mcpe/world/item/Item.h"
 #include "mcpe/world/level/block/Block.h"
+#include "mcpe/world/item/BlockItem.h"
 #include "mcpe/world/item/recipes/Recipes.h"
+#include "mcpe/world/material/Material.h"
 
 #include "ExampleMod/ExampleMod.h"
+
+Block* myBlock;
 
 void (*_Block$initBlocks)();
 void Block$initBlocks() {
 	_Block$initBlocks();
+	
+	myBlock = new Block("Dude", 210, "stone", Material::getMaterial(MaterialType::STONE));
+	myBlock->init();
+	myBlock->setCategory(CreativeItemCategory::DECORATIONS);
+	Block::mBlocks[210] = myBlock;
+	Item::mItems[210] = new BlockItem("Dude", 210 - 0x100);
 	
 	//ExampleMod::initBlocks();
 }
@@ -21,6 +31,8 @@ void Block$initBlocks() {
 void (*_Item$initCreativeItems)();
 void Item$initCreativeItems() {
 	_Item$initCreativeItems();
+	
+	Item::addCreativeItem(myBlock, 0);
 	
 	//ExampleMod::initCreativeItems();
 }
@@ -38,8 +50,8 @@ void Recipes$init(Recipes* self) {
 Block* (*_Block$Block)(Block*, const std::string&, int, const std::string&, const Material&);
 Block* Block$Block(Block* block, const std::string& name, int id, const std::string& tex, const Material& material) {
 	Block* retval = _Block$Block(block, name, id, tex, material);
-	if(tex == "missing_tile")
-		Block::mBlocks[id] = NULL;
+	//if(tex == "missing_tile")
+		//Block::mBlocks[id] = NULL;
 	
 	return retval;
 }
