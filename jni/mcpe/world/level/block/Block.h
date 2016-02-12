@@ -62,7 +62,7 @@ public:
 	bool instaTicks; // 77
 	float gravity; // 80
 	Material& material; // 84
-	Color color; // 88
+	Color mapColor; // 88
 	float friction; // 104
 	bool heavy; // 108
 	float hardness; // 112
@@ -183,6 +183,7 @@ public:
 	virtual std::string& buildDescriptionName(const ItemInstance&) const;
 	virtual int getColor(int) const;
 	virtual int getColor(BlockSource&, const BlockPos&) const;
+	virtual int getColorForParticle(BlockSource&, const BlockPos&, int) const;
 	virtual bool isSeasonTinted(BlockSource&, const BlockPos&) const;
 	virtual void prepareRender(BlockSource&, const BlockPos&);
 	virtual void onGraphicsModeChanged(bool, bool);
