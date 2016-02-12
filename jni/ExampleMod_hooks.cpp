@@ -9,14 +9,20 @@
 #include "mcpe/world/level/block/Block.h"
 #include "mcpe/world/item/recipes/Recipes.h"
 
+#include "ExampleMod/ExampleMod.h"
+
 void (*_Block$initBlocks)();
 void Block$initBlocks() {
 	_Block$initBlocks();
+	
+	//ExampleMod::initBlocks();
 }
 
 void (*_Item$initCreativeItems)();
 void Item$initCreativeItems() {
 	_Item$initCreativeItems();
+	
+	//ExampleMod::initCreativeItems();
 }
 
 static std::string (*_I18n$get)(const std::string&);
