@@ -1,6 +1,7 @@
 #pragma once
-class CompoundTag;
+
 class Item;
+class CompoundTag;
 class Block;
 class Mob;
 
@@ -23,5 +24,5 @@ public:
 	const ItemInstance& operator=(const ItemInstance&);
 	
 	bool isLiquidClipItem();
-	void hurtAndBreak(int, Mob*);
+	void hurtAndBreak(int, Entity*);
 };

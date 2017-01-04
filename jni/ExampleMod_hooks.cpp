@@ -6,65 +6,22 @@
 #include "Substrate.h"
 
 #include "mcpe/world/item/Item.h"
-#include "mcpe/world/level/block/Block.h"
 #include "mcpe/world/item/BlockItem.h"
-#include "mcpe/world/item/recipes/Recipes.h"
-#include "mcpe/world/material/Material.h"
 
-#include "ExampleMod/ExampleMod.h"
-
-Block* myBlock;
-
-void (*_Block$initBlocks)();
-void Block$initBlocks() {
-	_Block$initBlocks();
-	
-	myBlock = new Block("Dude", 210, "stone", Material::getMaterial(MaterialType::STONE));
-	myBlock->init();
-	myBlock->setCategory(CreativeItemCategory::DECORATIONS);
-	Block::mBlocks[210] = myBlock;
-	Item::mItems[210] = new BlockItem("Dude", 210 - 0x100);
-	
-	//ExampleMod::initBlocks();
-}
 
 void (*_Item$initCreativeItems)();
 void Item$initCreativeItems() {
 	_Item$initCreativeItems();
-	
-	Item::addCreativeItem(myBlock, 0);
-	
-	//ExampleMod::initCreativeItems();
 }
 
-static std::string (*_I18n$get)(const std::string&);
-static std::string I18n$get(const std::string& key) {
-	return _I18n$get(key);
-};
-
-void (*_Recipes$init)(Recipes*);
-void Recipes$init(Recipes* self) {
-	_Recipes$init(self);
-}
-
-Block* (*_Block$Block)(Block*, const std::string&, int, const std::string&, const Material&);
-Block* Block$Block(Block* block, const std::string& name, int id, const std::string& tex, const Material& material) {
-	Block* retval = _Block$Block(block, name, id, tex, material);
-	//if(tex == "missing_tile")
-		//Block::mBlocks[id] = NULL;
-	
-	return retval;
+void (*_Item$registerItems)();
+void Item$registerItems() {
+	_Item$registerItems();
 }
 
 JNIEXPORT jint JNI_OnLoad(JavaVM* vm, void* reserved) {
-	MSHookFunction((void*) &Block::initBlocks, (void*) &Block$initBlocks, (void**) &_Block$initBlocks);
 	MSHookFunction((void*) &Item::initCreativeItems, (void*) &Item$initCreativeItems, (void**) &_Item$initCreativeItems);
-	MSHookFunction((void*) &Recipes::init, (void*) &Recipes$init, (void**) &_Recipes$init);
+	MSHookFunction((void*) &Item::registerItems, (void*) &Item$registerItems, (void**) &_Item$registerItems);
 	
-	void* I18n_get = dlsym(RTLD_DEFAULT, "_ZN4I18n3getERKSs");
-	MSHookFunction(I18n_get, (void*) &I18n$get, (void**) &_I18n$get);
-	
-	void* BlockConstructor = dlsym(RTLD_DEFAULT, "_ZN5BlockC2ERKSsiS1_RK8Material");
-	MSHookFunction(BlockConstructor, (void*) &Block$Block, (void**) &_Block$Block);
 	return JNI_VERSION_1_2;
 }

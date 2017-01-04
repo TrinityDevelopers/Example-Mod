@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Item.h"
+#include "ItemInstance.h"
 
 enum class ArmorSlot : int {
 	HELMET,
@@ -9,50 +10,55 @@ enum class ArmorSlot : int {
 	BOOTS
 };
 
-// Size : 88
 class ArmorItem : public Item {
 public:
-	// Size : 20
-	class ArmorMaterial
-	{
+	class ArmorMaterial {
 	public:
-		int i1;		// 0
-		int defense;// 4
-		int i3;		// 8
-		int i4;		// 12
-		int i5;		// 16
-		int i6;		// 20
+		int maxDamageFactor; // 0
+		int damageReductionAmountArray[4]; // 4
+		int enchantability;	// 20
 
-	public:
 		ArmorMaterial(int, int, int, int, int, int);
-		int getDefenseForSlot(int);
+		int getDefenseForSlot(ArmorSlot);
 		int getEnchantValue();
-		int getHealthForSlot(int);
+		int getHealthForSlot(ArmorSlot);
 	};
 
-public:
 	static ArmorMaterial CHAIN;
 	static ArmorMaterial CLOTH;
 	static ArmorMaterial DIAMOND;
 	static ArmorMaterial GOLD;
 	static ArmorMaterial IRON;
+	static ArmorMaterial ELYTRA;
 	static int mHealthPerSlot[5];
 
-public:
-	ArmorSlot armorType;			// 64
-	int defence;					// 68
-	int renderIndex;				// 72
-	ArmorMaterial *armorMaterial;	// 76
+	ArmorSlot armorType;			// 108
+	int defence;					// 112
+	int renderIndex;				// 116
+	ArmorMaterial& armorMaterial;	// 120
 
-public:
-	ArmorItem(const std::string&, int, const ArmorItem::ArmorMaterial &, int, ArmorSlot);
+	ArmorItem(const std::string&, int, const ArmorMaterial&, int, ArmorSlot);
 	virtual ~ArmorItem();
 	virtual bool isArmor() const;
-	virtual const std::string& appendFormattedHovertext(const ItemInstance&, const Player&, std::string&, bool) const;
-	virtual bool isValidRepairItem(const ItemInstance&, const ItemInstance&); 
-	virtual int getEnchantSlot() const; 
+	virtual const std::string& appendFormattedHovertext(const ItemInstance&, Level&, std::string&, bool) const;
+	virtual bool isValidRepairItem(const ItemInstance&, const ItemInstance&);
+	virtual int getEnchantSlot() const;
 	virtual int getEnchantValue() const;
-    virtual Color getColor(const ItemInstance&) const;
+	virtual int getDamageChance(int) const;
+	virtual int getColor(const ItemInstance&) const;
+	virtual bool use(ItemInstance&, Player&);
     virtual void dispense(BlockSource&, Container&, int, const Vec3&, signed char);
+	virtual void hurtEnemy(ItemInstance*, Mob*, Mob*);
+	virtual void mineBlock(ItemInstance*, BlockID, int, int, int, Entity*);
+	virtual const TextureUVCoordinateSet& getIcon(int, int, bool) const;
+	bool isElytra() const;
+	bool hasCustomColor(const ItemInstance&) const;
+	bool isDamageable(const ItemInstance&);
+	bool isFlyEnabled(const ItemInstance&);
+	void clearColor(ItemInstance&);
 	ItemInstance getTierItem();
+	
+	void clearColor(ItemInstance&);
+	static bool isElytraBroken(int);
+	static bool isElytra(const ItemInstance&);
 };
