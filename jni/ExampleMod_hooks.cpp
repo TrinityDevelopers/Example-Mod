@@ -10,6 +10,7 @@
 #include "mcpe/world/level/block/Block.h"
 #include "mcpe/world/level/block/BlockGraphics.h"
 #include "mcpe/world/material/Material.h"
+#include "mcpe/locale/Localization.h"
 
 #define  LOG_TAG	"ExampleMod"
 
@@ -68,12 +69,21 @@ void Item$initClientData() {
 	LOGD("item icon registered");
 }
 
+void (*_Localization$_load)(Localization*, const std::string&);
+void Localization$_load(Localization* self, const std::string& langCode)
+{	
+	_Localization$_load(self, langCode);
+	
+	_Localization$_load(self, "examplemod/" + langCode);
+}
+
 JNIEXPORT jint JNI_OnLoad(JavaVM* vm, void* reserved) {
 	MSHookFunction((void*) &Block::initBlocks, (void*) &Block$initBlocks, (void**) &_Block$initBlocks);
 	MSHookFunction((void*) &BlockGraphics::initBlocks, (void*) &BlockGraphics$initBlocks, (void**) &_BlockGraphics$initBlocks);
 	MSHookFunction((void*) &Item::initCreativeItems, (void*) &Item$initCreativeItems, (void**) &_Item$initCreativeItems);
 	MSHookFunction((void*) &Item::registerItems, (void*) &Item$registerItems, (void**) &_Item$registerItems);
 	MSHookFunction((void*) &Item::initClientData, (void*) &Item$initClientData, (void**) &_Item$initClientData);
+	MSHookFunction((void*) &Localization::_load, (void*) &Localization$_load, (void**) &_Localization$_load);
 	
 	return JNI_VERSION_1_2;
 }
