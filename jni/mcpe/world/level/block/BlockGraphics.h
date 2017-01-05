@@ -15,6 +15,8 @@ namespace Json { class Value; }
 class BlockGraphics 
 {
 public:
+	void**vtable;
+	char filler[500];
 
 	static std::shared_ptr<TextureAtlas> mTerrainTextureAtlas;
 	static std::vector<std::unique_ptr<BlockGraphics>> mOwnedBlocks;

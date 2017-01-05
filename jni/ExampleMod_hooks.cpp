@@ -34,8 +34,8 @@ void (*_BlockGraphics$initBlocks)();
 void BlockGraphics$initBlocks() {
 	_BlockGraphics$initBlocks();
 	
-	BlockGraphics::mBlocks[220] = new BlockGraphics("stone");
-	BlockGraphics::mBlocks[220]->setTextureItem("stone_diorite");
+	BlockGraphics::mBlocks[220] = new BlockGraphics("dirt");
+	BlockGraphics::mBlocks[220]->setTextureItem("stone");
 	LOGD("block graphics initiated");
 }
 
