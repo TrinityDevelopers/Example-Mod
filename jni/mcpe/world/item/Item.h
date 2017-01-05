@@ -5,6 +5,7 @@
 #include <vector>
 
 #include "../../CreativeItemCategory.h"
+#include "../level/block/BlockShape.h"
 
 class TextureUVCoordinateSet;
 class SeedItemComponent;
@@ -18,7 +19,6 @@ class Level;
 class Player;
 class Container;
 class BlockSource;
-class BlockShape;
 class TextureAtlas;
 class ResourcePackManager;
 class Vec3;
