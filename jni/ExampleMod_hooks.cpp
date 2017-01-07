@@ -9,6 +9,7 @@
 #include "mcpe/world/item/ItemInstance.h"
 #include "mcpe/world/item/BlockItem.h"
 #include "mcpe/world/item/recipes/FurnaceRecipes.h"
+#include "mcpe/world/item/recipes/Recipes.h"
 #include "mcpe/world/level/block/Block.h"
 #include "mcpe/world/level/block/BlockGraphics.h"
 #include "mcpe/world/material/Material.h"
@@ -78,6 +79,14 @@ void FurnaceRecipes$_init(FurnaceRecipes* recipes) {
 	recipes->addFurnaceRecipe(220, ItemInstance(1500, 1, 0));
 }
 
+void (*_Recipes$init)(Recipes*);
+void Recipes$init(Recipes* recipes) {
+	_Recipes$init(recipes);
+	
+	Recipes::Type type {Item::mItems[220], NULL, ItemInstance(), 'X'};
+	recipes->addShapedRecipe(ItemInstance(1500, 1, 0), {"XXX", "XXX", "XXX"}, {type});
+}
+
 void (*_Localization$_load)(Localization*, const std::string&);
 void Localization$_load(Localization* self, const std::string& langCode)
 {	
@@ -94,6 +103,7 @@ JNIEXPORT jint JNI_OnLoad(JavaVM* vm, void* reserved) {
 	MSHookFunction((void*) &Item::registerItems, (void*) &Item$registerItems, (void**) &_Item$registerItems);
 	MSHookFunction((void*) &Item::initClientData, (void*) &Item$initClientData, (void**) &_Item$initClientData);
 	MSHookFunction((void*) &FurnaceRecipes::_init, (void*) &FurnaceRecipes$_init, (void**) &_FurnaceRecipes$_init);
+	MSHookFunction((void*) &Recipes::init, (void*) &Recipes$init, (void**) &_Recipes$init);
 	MSHookFunction((void*) &Localization::_load, (void*) &Localization$_load, (void**) &_Localization$_load);
 	
 	return JNI_VERSION_1_2;
