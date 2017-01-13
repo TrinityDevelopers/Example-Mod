@@ -2,15 +2,38 @@
 
 #include <string>
 
-//arrays
+//most are enums lol
 #include "EntityType.h"
+#include "AddEntityPacket.h"
+#include "AABB.h"
+#include "LootTables.h"
+#include "MaterialType.h"
+#include "EntityUniqueID.h"
+#include "EntityEvent.h"
+#include "ArmorSlot.h"
+#include "EntityLink.h"
+#include "DimensionId.h"
+#include "LevelSoundEvent.h"
 
 //using these as return stuff or meh
-class Player;
+class Inventory;
 class Vec3;
+class Vec2;
+class Player;
+class EntityDamageSource;
+class BlockPos;
+class FullBlock;
+class ItemInstance;
+class CompoundTag;
+class SetEntityDataPacket;
+class ChangeDimensionPacket;
+class Block;
+class EntityPos;
 
 class Entity {
 public:
+
+	char bigdaddy[3242];
 
 	Entity(BlockSource&, const std::string&);
 	Entity(Level&);
@@ -22,7 +45,7 @@ public:
 	virtual void reloadcComponents(Entity::InitializationMethod, const VariantParameterList&);
 	virtual bool hasComponent(const std::string&) const;
 	virtual bool hasInventory() const;
-	virtual Player getInventory();
+	virtual Inventory& getInventory();
 	
 	virtual ~Entity();
 	virtual void reset();
