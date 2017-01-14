@@ -7,6 +7,7 @@ struct AABB {
 	Vec3 max;
 
 	AABB();
+	AABB(const Vec3&, float);
 	AABB(const Vec3&, const Vec3&);
 	AABB(float, float, float, float, float, float);
 

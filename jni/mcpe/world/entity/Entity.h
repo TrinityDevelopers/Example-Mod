@@ -1,21 +1,11 @@
 #pragma once
 
 #include <string>
+#include <vector>
 
-//most are enums lol
-#include "EntityType.h"
 #include "AddEntityPacket.h"
-#include "AABB.h"
-#include "LootTables.h"
-#include "MaterialType.h"
-#include "EntityUniqueID.h"
-#include "EntityEvent.h"
-#include "ArmorSlot.h"
-#include "EntityLink.h"
-#include "DimensionId.h"
-#include "LevelSoundEvent.h"
+#include "../phys/AABB.h"
 
-//using these as return stuff or meh
 class Inventory;
 class Vec3;
 class Vec2;
@@ -29,6 +19,21 @@ class SetEntityDataPacket;
 class ChangeDimensionPacket;
 class Block;
 class EntityPos;
+class EntityType;
+class LootTables.h;
+class MaterialType.h;
+class EntityUniqueID.h;
+class EntityEvent.h;
+class EntityLink.h;
+class DimensionId.h;
+class LevelSoundEvent.h;
+
+enum class ArmorSlot : int {
+	HELMET,
+	CHESTPLATE,
+	LEGGINGS,
+	BOOTS
+};
 
 class Entity {
 public:
